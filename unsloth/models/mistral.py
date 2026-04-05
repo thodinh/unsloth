@@ -360,7 +360,7 @@ def MistralForCausalLM_fast_forward(
     if labels is not None:
         shift_logits = logits
         # if not hasattr(self, "extra_ignored_labels"):
-        #     # Fixes https://github.com/unslothai/unsloth/issues/10
+        #     # Fixes https://github.com/thodinh/unsloth/issues/10
         #     self.extra_ignored_labels = torch.full((self.max_seq_length, 1), -100, device = "cuda:0")
         # pass
         # shift_labels = torch.hstack((labels[..., 1:], self.extra_ignored_labels[:labels.shape[0]]))
@@ -434,7 +434,7 @@ class FastMistralModel(FastLlamaModel):
         PeftModelForCausalLM.forward = PeftModel_fast_forward
         fix_prepare_inputs_for_generation(MistralForCausalLM)
 
-        # Solves https://github.com/unslothai/unsloth/issues/168
+        # Solves https://github.com/thodinh/unsloth/issues/168
         # Static KV Cache was introduced in 4.38.0, causing training to be much slower.
         # Inference can now be CUDAGraphed, but we shall retain the old rotary embeddings.
         # https://github.com/huggingface/transformers/pull/27931

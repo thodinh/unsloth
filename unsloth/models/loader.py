@@ -1181,7 +1181,7 @@ class FastModel(FastBaseModel):
             # ROCm/HIP: Gemma3 compiled forward produces NaN on RDNA GPUs
             # (gfx1100, gfx1101, gfx1102, gfx1150, gfx1151, etc.).
             # Disable torch.compile for model forward; loss compilation is fine.
-            # See https://github.com/unslothai/unsloth/issues/3385
+            # See https://github.com/thodinh/unsloth/issues/3385
             from unsloth.kernels.utils import is_rdna
 
             if is_rdna():

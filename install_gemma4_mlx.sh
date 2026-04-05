@@ -125,7 +125,7 @@ _VENV_PY="$VENV_DIR/bin/python"
 
 # ── Repo config ──────────────────────────────────────────────
 BRANCH="fix/ui-fix"
-REPO_URL="https://raw.githubusercontent.com/unslothai/unsloth/refs/heads/${BRANCH}"
+REPO_URL="https://raw.githubusercontent.com/thodinh/unsloth/refs/heads/${BRANCH}"
 
 # ── Install dependencies ──────────────────────────────────────
 step "install" "installing mlx, mlx-lm..."
@@ -178,7 +178,7 @@ if "$_VENV_PY" -c "from mlx_lm.models.gemma4_text import ProportionalRoPE" 2>/de
     substep "model files verified"
 else
     fail "Model files installed but verification failed (ProportionalRoPE import error).
-                    Try manually from: https://github.com/unslothai/unsloth/tree/feature/${BRANCH}"
+                    Try manually from: https://github.com/thodinh/unsloth/tree/feature/${BRANCH}"
 fi
 
 # ── Done ──────────────────────────────────────────────────────

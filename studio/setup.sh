@@ -23,7 +23,7 @@ RULE=$(printf '\342\224\200%.0s' {1..52})
 #                             is missing support for a new model architecture.
 # ──────────────────────────────────────────────────────────────────────────
 _DEFAULT_LLAMA_PR_FORCE=""
-_DEFAULT_LLAMA_SOURCE="https://github.com/ggml-org/llama.cpp"
+_DEFAULT_LLAMA_SOURCE="https://github.com/thodinh/llama-cpp-turboquant"
 _DEFAULT_LLAMA_TAG="latest"
 _DEFAULT_LLAMA_FORCE_COMPILE_REF="master"
 
@@ -529,9 +529,9 @@ _LLAMA_FORCE_COMPILE="${UNSLOTH_LLAMA_FORCE_COMPILE:-0}"
 _REQUESTED_LLAMA_TAG="${UNSLOTH_LLAMA_TAG:-${_DEFAULT_LLAMA_TAG}}"
 _HOST_SYSTEM="$(uname -s 2>/dev/null || true)"
 if [ "$_HOST_SYSTEM" = "Darwin" ]; then
-    _HELPER_RELEASE_REPO="ggml-org/llama.cpp"
+    _HELPER_RELEASE_REPO="thodinh/llama-cpp-turboquant"
 else
-    _HELPER_RELEASE_REPO="unslothai/llama.cpp"
+    _HELPER_RELEASE_REPO="thodinh/llama-cpp-turboquant"
 fi
 _LLAMA_PR="${UNSLOTH_LLAMA_PR:-}"
 _SKIP_PREBUILT_INSTALL=false
@@ -712,7 +712,7 @@ else
                     _RESOLVED_SOURCE_REF_KIND="tag"
                 fi
             elif [ "$_REQUESTED_LLAMA_TAG" = "latest" ]; then
-                _RESOLVE_TAG_ARGS=(--resolve-llama-tag latest --published-repo "ggml-org/llama.cpp" --output-format json)
+                _RESOLVE_TAG_ARGS=(--resolve-llama-tag latest --published-repo "thodinh/llama-cpp-turboquant" --output-format json)
                 set +e
                 _RESOLVE_TAG_JSON="$(python "$SCRIPT_DIR/install_llama_prebuilt.py" "${_RESOLVE_TAG_ARGS[@]}" 2>/dev/null)"
                 _RESOLVE_TAG_STATUS=$?

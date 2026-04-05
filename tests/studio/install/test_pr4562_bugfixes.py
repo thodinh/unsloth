@@ -233,7 +233,7 @@ class TestBinaryEnvCrossPlatform:
 # =========================================================================
 class TestResolveRequestedLlamaTag:
     def test_concrete_tag_passes_through(self):
-        assert resolve_requested_llama_tag("b8508") == "b8508"
+        assert resolve_requested_llama_tag("b8665") == "b8665"
 
     def test_none_resolves_to_latest(self, monkeypatch: pytest.MonkeyPatch):
         monkeypatch.setattr(MOD, "latest_upstream_release_tag", lambda: "b9999")
@@ -251,7 +251,7 @@ class TestResolveRequestedLlamaTag:
         self, monkeypatch: pytest.MonkeyPatch
     ):
         invalid = PublishedReleaseBundle(
-            repo = "unslothai/llama.cpp",
+            repo = "thodinh/llama-cpp-turboquant",
             release_tag = "v2.0",
             upstream_tag = "b9000",
             assets = {},
@@ -260,7 +260,7 @@ class TestResolveRequestedLlamaTag:
             selection_log = [],
         )
         valid = PublishedReleaseBundle(
-            repo = "unslothai/llama.cpp",
+            repo = "thodinh/llama-cpp-turboquant",
             release_tag = "v1.0",
             upstream_tag = "b8999",
             assets = {},
@@ -287,7 +287,7 @@ class TestResolveRequestedLlamaTag:
                     source_archive_logical_name("b8999"): ApprovedArtifactHash(
                         asset_name = source_archive_logical_name("b8999"),
                         sha256 = "a" * 64,
-                        repo = "ggml-org/llama.cpp",
+                        repo = "thodinh/llama-cpp-turboquant",
                         kind = "upstream-source",
                     )
                 },
@@ -296,7 +296,7 @@ class TestResolveRequestedLlamaTag:
         monkeypatch.setattr(MOD, "load_approved_release_checksums", fake_load)
         monkeypatch.setattr(MOD, "latest_upstream_release_tag", lambda: "b7777")
 
-        assert resolve_requested_llama_tag("latest", "unslothai/llama.cpp") == "b8999"
+        assert resolve_requested_llama_tag("latest", "thodinh/llama-cpp-turboquant") == "b8999"
 
     def test_latest_with_published_release_tag_passes_pin_through(
         self, monkeypatch: pytest.MonkeyPatch
@@ -325,7 +325,7 @@ class TestResolveRequestedLlamaTag:
                         source_archive_logical_name("b9001"): ApprovedArtifactHash(
                             asset_name = source_archive_logical_name("b9001"),
                             sha256 = "a" * 64,
-                            repo = "ggml-org/llama.cpp",
+                            repo = "thodinh/llama-cpp-turboquant",
                             kind = "upstream-source",
                         )
                     },
@@ -337,14 +337,14 @@ class TestResolveRequestedLlamaTag:
         assert (
             resolve_requested_llama_tag(
                 "latest",
-                "unslothai/llama.cpp",
+                "thodinh/llama-cpp-turboquant",
                 "llama-prebuilt-main",
             )
             == "b9001"
         )
         assert captured == {
             "requested_tag": "latest",
-            "published_repo": "unslothai/llama.cpp",
+            "published_repo": "thodinh/llama-cpp-turboquant",
             "published_release_tag": "llama-prebuilt-main",
         }
 
@@ -365,7 +365,7 @@ class TestFetchJsonRetries:
         monkeypatch.setattr(MOD, "sleep_backoff", lambda _attempt: None)
 
         payload = MOD.fetch_json(
-            "https://api.github.com/repos/ggml-org/llama.cpp/releases?per_page=100&page=1"
+            "https://api.github.com/repos/thodinh/llama-cpp-turboquant/releases?per_page=100&page=1"
         )
 
         assert isinstance(payload, list)
@@ -384,7 +384,7 @@ class TestFetchJsonRetries:
 
         monkeypatch.setattr(MOD, "fetch_json", fake_fetch_json)
 
-        releases = MOD.github_releases("ggml-org/llama.cpp", max_pages = 2)
+        releases = MOD.github_releases("thodinh/llama-cpp-turboquant", max_pages = 2)
 
         assert seen_pages == [1, 2]
         assert len(releases) == 200
@@ -504,11 +504,11 @@ class TestSetupShLogic:
 
         script = textwrap.dedent(f"""\
             export PATH="{mock_bin}:$PATH"
-            git clone --depth 1 --branch "b8508" https://github.com/ggml-org/llama.cpp.git /tmp/llama_test
+            git clone --depth 1 --branch "b8665" https://github.com/thodinh/llama-cpp-turboquant.git /tmp/llama_test
         """)
         run_bash(script)
         log = log_file.read_text()
-        assert "--branch b8508" in log, f"Expected --branch b8508 in: {log}"
+        assert "--branch b8665" in log, f"Expected --branch b8665 in: {log}"
 
     def test_fetch_checkout_b_pattern(self, tmp_path: Path):
         """Bug 1: Re-run should use fetch + checkout -B, not pull + checkout FETCH_HEAD."""
@@ -525,7 +525,7 @@ class TestSetupShLogic:
         script = textwrap.dedent(f"""\
             export PATH="{mock_bin}:$PATH"
             LlamaCppDir="{llama_dir}"
-            ResolvedLlamaTag="b8508"
+            ResolvedLlamaTag="b8665"
             if [ -d "$LlamaCppDir/.git" ]; then
                 git -C "$LlamaCppDir" fetch --depth 1 origin "$ResolvedLlamaTag"
                 if [ $? -ne 0 ]; then
@@ -537,7 +537,7 @@ class TestSetupShLogic:
         """)
         run_bash(script)
         log = log_file.read_text()
-        assert "fetch --depth 1 origin b8508" in log
+        assert "fetch --depth 1 origin b8665" in log
         assert "checkout -B unsloth-llama-build FETCH_HEAD" in log
         assert "pull" not in log, "Should use fetch, not pull"
 
@@ -557,7 +557,7 @@ class TestSetupShLogic:
         script = textwrap.dedent(f"""\
             export PATH="{mock_bin}:$PATH"
             LlamaCppDir="{llama_dir}"
-            ResolvedLlamaTag="b8508"
+            ResolvedLlamaTag="b8665"
             BuildOk=true
             if [ -d "$LlamaCppDir/.git" ]; then
                 git -C "$LlamaCppDir" fetch --depth 1 origin "$ResolvedLlamaTag"
@@ -610,10 +610,10 @@ class TestLatestTagResolution:
         output = self._run_resolve(
             tmp_path,
             "latest",
-            resolved_tag = "b8508",
+            resolved_tag = "b8665",
             resolve_status = 0,
         )
-        assert output == "b8508"
+        assert output == "b8665"
 
     def test_helper_resolution_falls_back_to_raw_requested_tag(self, tmp_path: Path):
         output = self._run_resolve(
@@ -692,7 +692,7 @@ class TestSourceCodePatterns:
         assert "--resolve-source-build" not in content
         assert "--resolve-install-tag" not in content
         assert (
-            '--resolve-llama-tag latest --published-repo "ggml-org/llama.cpp"'
+            '--resolve-llama-tag latest --published-repo "thodinh/llama-cpp-turboquant"'
             in content
         )
         assert "--output-format json" in content
@@ -706,7 +706,7 @@ class TestSourceCodePatterns:
         assert "--simple-policy" in content
         assert "--resolve-install-tag" not in content
         assert "_HELPER_RELEASE_REPO}/releases/latest" not in content
-        assert "ggml-org/llama.cpp/releases/latest" not in content
+        assert "thodinh/llama-cpp-turboquant/releases/latest" not in content
 
     def test_setup_sh_reports_installed_prebuilt_release(self):
         """Shell wrapper should report the installed prebuilt release from metadata."""
@@ -818,7 +818,7 @@ class TestSourceCodePatterns:
         assert '"--simple-policy"' in content
         assert "--resolve-install-tag" not in content
         assert "$HelperReleaseRepo/releases/latest" not in content
-        assert "ggml-org/llama.cpp/releases/latest" not in content
+        assert "thodinh/llama-cpp-turboquant/releases/latest" not in content
 
     def test_setup_ps1_reports_installed_prebuilt_release(self):
         """PS1 wrapper should report the installed prebuilt release from metadata."""
@@ -837,7 +837,7 @@ class TestSourceCodePatterns:
         assert "--resolve-source-build" not in content
         assert "--resolve-install-tag" not in content
         assert (
-            '"--resolve-llama-tag", "latest", "--published-repo", "ggml-org/llama.cpp"'
+            '"--resolve-llama-tag", "latest", "--published-repo", "thodinh/llama-cpp-turboquant"'
             in content
         )
         assert '--output-format", "json"' in content

@@ -584,21 +584,21 @@ def install_python_stack() -> int:
     # patch_package_file(
     #     "unsloth-zoo",
     #     os.path.join("unsloth_zoo", "llama_cpp.py"),
-    #     "https://raw.githubusercontent.com/unslothai/unsloth-zoo/refs/heads/main/unsloth_zoo/llama_cpp.py",
+    #     "https://raw.githubusercontent.com/thodinh/unsloth-zoo/refs/heads/main/unsloth_zoo/llama_cpp.py",
     # )
 
     # # 7a. Patch: override vision.py with fix from unsloth PR #4091
     # patch_package_file(
     #     "unsloth",
     #     os.path.join("unsloth", "models", "vision.py"),
-    #     "https://raw.githubusercontent.com/unslothai/unsloth/80e0108a684c882965a02a8ed851e3473c1145ab/unsloth/models/vision.py",
+    #     "https://raw.githubusercontent.com/thodinh/unsloth/80e0108a684c882965a02a8ed851e3473c1145ab/unsloth/models/vision.py",
     # )
 
     # # 7b. Patch : override save.py with fix from feature/llama-cpp-windows-support
     # patch_package_file(
     #     "unsloth",
     #     os.path.join("unsloth", "save.py"),
-    #     "https://raw.githubusercontent.com/unslothai/unsloth/refs/heads/main/unsloth/save.py",
+    #     "https://raw.githubusercontent.com/thodinh/unsloth/refs/heads/main/unsloth/save.py",
     # )
 
     # 8. Studio dependencies

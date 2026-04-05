@@ -379,7 +379,7 @@ def prepare_for_training_mode(f):
         # We do this at the START of train() (not the end) so that
         # evaluate() / log() still work after train() completes.
         # HF's WandbCallback.setup() will call wandb.init() for the new run.
-        # See: https://github.com/unslothai/unsloth/issues/3954
+        # See: https://github.com/thodinh/unsloth/issues/3954
         if getattr(self, '_unsloth_training_completed', False):
             try:
                 import wandb

@@ -32,7 +32,7 @@ $PackageDir = Split-Path -Parent $ScriptDir
 # errors. Only use "master" temporarily when the latest release is missing
 # support for a new model architecture.
 $DefaultLlamaPrForce = ""
-$DefaultLlamaSource = "https://github.com/ggml-org/llama.cpp"
+$DefaultLlamaSource = "https://github.com/thodinh/llama-cpp-turboquant"
 $DefaultLlamaTag = "latest"
 $DefaultLlamaForceCompileRef = "master"
 
@@ -1637,7 +1637,7 @@ $LlamaCppDir = Join-Path $UnslothHome "llama.cpp"
 $NeedLlamaSourceBuild = $false
 $SkipPrebuiltInstall = $false
 $RequestedLlamaTag = if ($env:UNSLOTH_LLAMA_TAG) { $env:UNSLOTH_LLAMA_TAG } else { $DefaultLlamaTag }
-$HelperReleaseRepo = "ggml-org/llama.cpp"
+$HelperReleaseRepo = "thodinh/llama-cpp-turboquant"
 $LlamaPr = if ($env:UNSLOTH_LLAMA_PR) { $env:UNSLOTH_LLAMA_PR.Trim() } else { "" }
 
 $LlamaPrForce = if ($env:UNSLOTH_LLAMA_PR_FORCE) { $env:UNSLOTH_LLAMA_PR_FORCE.Trim() } else { $DefaultLlamaPrForce }
@@ -1699,7 +1699,7 @@ function Invoke-LlamaHelper {
     }
 }
 
-if ($LlamaSource -ne "https://github.com/ggml-org/llama.cpp") {
+if ($LlamaSource -ne "https://github.com/thodinh/llama-cpp-turboquant") {
     step "llama.cpp" "custom source: $LlamaSource -- forcing source build" "Yellow"
     $NeedLlamaSourceBuild = $true
     $SkipPrebuiltInstall = $true
@@ -1962,7 +1962,7 @@ if (-not $NeedLlamaSourceBuild) {
                 $ResolvedSourceRefKind = "tag"
             }
         } elseif ($RequestedLlamaTag -eq "latest") {
-            $resolveTagArgs = @("--resolve-llama-tag", "latest", "--published-repo", "ggml-org/llama.cpp", "--output-format", "json")
+            $resolveTagArgs = @("--resolve-llama-tag", "latest", "--published-repo", "thodinh/llama-cpp-turboquant", "--output-format", "json")
             $resolveTagResult = Invoke-LlamaHelper -Arguments $resolveTagArgs
             $resolveTagOutput = $resolveTagResult.Output
             $resolveTagExit = $resolveTagResult.ExitCode

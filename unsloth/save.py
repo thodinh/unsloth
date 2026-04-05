@@ -877,7 +877,7 @@ def install_llama_cpp_clone_non_blocking():
         "git",
         "clone",
         "--recursive",
-        "https://github.com/ggerganov/llama.cpp",
+        "https://github.com/thodinh/llama-cpp-turboquant",
     ]
     run_installer = subprocess.Popen(
         full_command, stdout = subprocess.DEVNULL, stderr = subprocess.STDOUT
@@ -972,7 +972,7 @@ def install_llama_cpp_old(version = -10):
     # Download the 10th latest release since the latest might be broken!
     # FALLBACK mechanism
     releases = subprocess.check_output(
-        ["git", "ls-remote", "--tags", "https://github.com/ggerganov/llama.cpp.git"]
+        ["git", "ls-remote", "--tags", "https://github.com/thodinh/llama-cpp-turboquant.git"]
     )
     releases = releases.decode("utf-8").replace("\t", " ").split("\n")
     for i, x in enumerate(releases):
@@ -1001,7 +1001,7 @@ def install_llama_cpp_old(version = -10):
     # Clone a specific commit
     # Also don't use the GPU!
     commands = [
-        "git clone --recursive https://github.com/ggerganov/llama.cpp",
+        "git clone --recursive https://github.com/thodinh/llama-cpp-turboquant",
         f"cd llama.cpp && git reset --hard {version} && git clean -df",
     ]
     try_execute(commands)
@@ -1044,7 +1044,7 @@ def install_llama_cpp_blocking(use_cuda = False):
     # use_cuda = "LLAMA_CUDA=1" if use_cuda else ""
 
     commands = [
-        "git clone --recursive https://github.com/ggerganov/llama.cpp",
+        "git clone --recursive https://github.com/thodinh/llama-cpp-turboquant",
         "pip install gguf protobuf",
     ]
     if os.path.exists("llama.cpp"):
@@ -1342,7 +1342,7 @@ def save_to_gguf(
                             f"Unsloth: Quantization failed for {output_location}\n"
                             "You might have to compile llama.cpp yourself, then run this again.\n"
                             "You do not need to close this Python program. Run the following commands in a new terminal:\n"
-                            f'git clone --recursive https://github.com/ggerganov/llama.cpp "{LLAMA_CPP_DEFAULT_DIR}"\n'
+                            f'git clone --recursive https://github.com/thodinh/llama-cpp-turboquant "{LLAMA_CPP_DEFAULT_DIR}"\n'
                             f"{build_instructions}\n"
                             "Once that's done, redo the quantization.\n"
                             f"Error: {e}"
@@ -1474,9 +1474,9 @@ language:
 - **License:** apache-2.0
 - **Finetuned from model :** {base_model}
 
-This {model_type} model was trained 2x faster with [Unsloth](https://github.com/unslothai/unsloth)
+This {model_type} model was trained 2x faster with [Unsloth](https://github.com/thodinh/unsloth)
 
-[<img src="https://raw.githubusercontent.com/unslothai/unsloth/main/images/unsloth%20made%20with%20love.png" width="200"/>](https://github.com/unslothai/unsloth)
+[<img src="https://raw.githubusercontent.com/thodinh/unsloth/main/images/unsloth%20made%20with%20love.png" width="200"/>](https://github.com/thodinh/unsloth)
 """
 
 
@@ -1718,7 +1718,7 @@ def create_ollama_modelfile(tokenizer, base_model_name, model_location):
     LEFT_BRACKET_REPLACER = "⚫@✅#🦥"
     RIGHT_BRACKET_REPLACER = "⚡@🦥#⛵"
 
-    # Fixes https://github.com/unslothai/unsloth/issues/1087
+    # Fixes https://github.com/thodinh/unsloth/issues/1087
     # We must convert all {'s and }'s but keep {__FILE_LOCATION__} intact
     modelfile = (
         modelfile.replace("{__FILE_LOCATION__}", FILE_LOCATION_REPLACER)
@@ -2359,7 +2359,7 @@ tags:
 
 # {repo_id.split("/")[-1]} : GGUF
 
-This model was finetuned and converted to GGUF format using [Unsloth](https://github.com/unslothai/unsloth).
+This model was finetuned and converted to GGUF format using [Unsloth](https://github.com/thodinh/unsloth).
 
 **Example usage**:
 - For text only LLMs:    `llama-cli -hf {repo_id} --jinja`
@@ -2405,8 +2405,8 @@ This model was finetuned and converted to GGUF format using [Unsloth](https://gi
             )
 
         readme_content += (
-            "This was trained 2x faster with [Unsloth](https://github.com/unslothai/unsloth)\n"
-            '[<img src="https://raw.githubusercontent.com/unslothai/unsloth/main/images/unsloth%20made%20with%20love.png" width="200"/>](https://github.com/unslothai/unsloth)\n'
+            "This was trained 2x faster with [Unsloth](https://github.com/thodinh/unsloth)\n"
+            '[<img src="https://raw.githubusercontent.com/thodinh/unsloth/main/images/unsloth%20made%20with%20love.png" width="200"/>](https://github.com/thodinh/unsloth)\n'
         )
 
         readme_path = os.path.join(actual_save_directory, "README.md")

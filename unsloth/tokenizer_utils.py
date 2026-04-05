@@ -336,7 +336,7 @@ def assert_same_tokenization(slow_tokenizer, fast_tokenizer):
 
         return check_chat_template and check_special_tokens
     except:
-        # For eg see https://github.com/unslothai/unsloth/issues/292
+        # For eg see https://github.com/thodinh/unsloth/issues/292
         # Sometimes tokenizer has weird tokens, causing a combined tokenization to fail.
         # [TODO] We temporarily disable this for CodeLlama tokenizers
         if slow_tokenizer.__repr__().split("(", 1)[0] in IGNORED_TOKENIZER_CHECKING:

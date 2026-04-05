@@ -1337,9 +1337,9 @@ class LlamaCppBackend:
             #   --spec-ngram-size-n 24  (small n not recommended)
             #   --draft-min 48 --draft-max 64 (MoEs need long drafts;
             #     dense models can reduce these)
-            # ref: https://github.com/ggml-org/llama.cpp/blob/master/docs/speculative.md
-            # ref: https://github.com/ggml-org/llama.cpp/pull/19164
-            # ref: https://github.com/ggml-org/llama.cpp/pull/18471
+            # ref: https://github.com/thodinh/llama-cpp-turboquant/blob/master/docs/speculative.md
+            # ref: https://github.com/thodinh/llama-cpp-turboquant/pull/19164
+            # ref: https://github.com/thodinh/llama-cpp-turboquant/pull/18471
             _valid_spec_types = {"ngram-simple", "ngram-mod"}
             if speculative_type and speculative_type in _valid_spec_types:
                 if not is_vision:  # spec decoding disabled for vision models

@@ -1260,7 +1260,10 @@ def direct_upstream_release_plan(
                 )
             )
     elif host.is_macos and host.is_arm64:
-        asset_name = f"llama-{release_tag}-bin-macos-arm64.tar.gz"
+        if repo == "thodinh/llama-cpp-turboquant":
+            asset_name = f"turboquant-{release_tag}-macos-arm64.tar.gz"
+        else:
+            asset_name = f"llama-{release_tag}-bin-macos-arm64.tar.gz"
         asset_url = assets.get(asset_name)
         if asset_url:
             attempts.append(
@@ -1287,20 +1290,39 @@ def direct_upstream_release_plan(
                     install_kind = "macos-x64",
                 )
             )
-    elif host.is_linux and host.is_x86_64 and not host.has_usable_nvidia:
-        asset_name = f"llama-{release_tag}-bin-ubuntu-x64.tar.gz"
-        asset_url = assets.get(asset_name)
-        if asset_url:
-            attempts.append(
-                AssetChoice(
-                    repo = repo,
-                    tag = release_tag,
-                    name = asset_name,
-                    url = asset_url,
-                    source_label = "upstream",
-                    install_kind = "linux-cpu",
+    elif host.is_linux and host.is_x86_64:
+        if host.has_usable_nvidia:
+            if repo == "thodinh/llama-cpp-turboquant":
+                asset_name = f"turboquant-{release_tag}-linux-cuda-x64.tar.gz"
+                asset_url = assets.get(asset_name)
+                if asset_url:
+                    attempts.append(
+                        AssetChoice(
+                            repo = repo,
+                            tag = release_tag,
+                            name = asset_name,
+                            url = asset_url,
+                            source_label = "upstream",
+                            install_kind = "linux-cuda",
+                        )
+                    )
+        else:
+            if repo == "thodinh/llama-cpp-turboquant":
+                asset_name = f"turboquant-{release_tag}-linux-cpu-x64.tar.gz"
+            else:
+                asset_name = f"llama-{release_tag}-bin-ubuntu-x64.tar.gz"
+            asset_url = assets.get(asset_name)
+            if asset_url:
+                attempts.append(
+                    AssetChoice(
+                        repo = repo,
+                        tag = release_tag,
+                        name = asset_name,
+                        url = asset_url,
+                        source_label = "upstream",
+                        install_kind = "linux-cpu",
+                    )
                 )
-            )
     if not attempts:
         raise PrebuiltFallback("no compatible upstream prebuilt asset was found")
     return InstallReleasePlan(
@@ -1339,12 +1361,9 @@ def resolve_simple_install_release_plans(
         )
         for release in releases:
             try:
-                if host.is_linux and repo == "unslothai/llama.cpp":
-                    plan = direct_linux_release_plan(release, host, repo, requested_tag)
-                else:
-                    plan = direct_upstream_release_plan(
-                        release, host, repo, requested_tag
-                    )
+                plan = direct_upstream_release_plan(
+                    release, host, repo, requested_tag
+                )
                 if plan is None:
                     continue
             except PrebuiltFallback as exc:
@@ -3569,22 +3588,31 @@ def cleanup_install_side_paths(
 
 
 def confirm_install_tree(install_dir: Path, host: HostInfo) -> None:
+    metadata = load_prebuilt_metadata(install_dir)
+    is_turboquant = metadata and metadata.get("published_repo") == "thodinh/llama-cpp-turboquant"
+    
     if host.is_windows:
         expected = [
-            install_dir / "build" / "bin" / "Release" / "llama-server.exe",
-            install_dir / "build" / "bin" / "Release" / "llama-quantize.exe",
             install_dir / "convert_hf_to_gguf.py",
             install_dir / "gguf-py",
         ]
+        if not is_turboquant:
+            expected.extend([
+                install_dir / "build" / "bin" / "Release" / "llama-server.exe",
+                install_dir / "build" / "bin" / "Release" / "llama-quantize.exe",
+            ])
     else:
         expected = [
-            install_dir / "llama-server",
-            install_dir / "llama-quantize",
-            install_dir / "build" / "bin" / "llama-server",
-            install_dir / "build" / "bin" / "llama-quantize",
             install_dir / "convert_hf_to_gguf.py",
             install_dir / "gguf-py",
         ]
+        if not is_turboquant:
+            expected.extend([
+                install_dir / "llama-server",
+                install_dir / "llama-quantize",
+                install_dir / "build" / "bin" / "llama-server",
+                install_dir / "build" / "bin" / "llama-quantize",
+            ])
 
     expected.append(install_dir / "UNSLOTH_PREBUILT_INFO.json")
     missing = [str(path) for path in expected if not path.exists()]
@@ -3715,32 +3743,34 @@ def install_from_archives(
         exec_dir = install_dir / "build" / "bin" / "Release"
         server_src = next(exec_dir.glob("llama-server.exe"), None)
         quantize_src = next(exec_dir.glob("llama-quantize.exe"), None)
-        if server_src is None or quantize_src is None:
-            raise PrebuiltFallback("windows executables were not installed correctly")
+        if choice.repo != "thodinh/llama-cpp-turboquant":
+            if server_src is None or quantize_src is None:
+                raise PrebuiltFallback("windows executables were not installed correctly")
         return server_src, quantize_src
 
     build_bin = install_dir / "build" / "bin"
     source_server = build_bin / "llama-server"
     source_quantize = build_bin / "llama-quantize"
-    if not source_server.exists() or not source_quantize.exists():
-        raise PrebuiltFallback(
-            "unix executables were not installed correctly into build/bin"
-        )
-    os.chmod(source_server, 0o755)
-    os.chmod(source_quantize, 0o755)
+    if choice.repo != "thodinh/llama-cpp-turboquant":
+        if not source_server.exists() or not source_quantize.exists():
+            raise PrebuiltFallback(
+                "unix executables were not installed correctly into build/bin"
+            )
+        os.chmod(source_server, 0o755)
+        os.chmod(source_quantize, 0o755)
 
-    root_server = install_dir / "llama-server"
-    root_quantize = install_dir / "llama-quantize"
-    if source_server != root_server:
-        create_exec_entrypoint(root_server, source_server)
-    if source_quantize != root_quantize:
-        create_exec_entrypoint(root_quantize, source_quantize)
-    build_server = build_bin / "llama-server"
-    build_quantize = build_bin / "llama-quantize"
-    if source_server != build_server:
-        create_exec_entrypoint(build_server, source_server)
-    if source_quantize != build_quantize:
-        create_exec_entrypoint(build_quantize, source_quantize)
+        root_server = install_dir / "llama-server"
+        root_quantize = install_dir / "llama-quantize"
+        if source_server != root_server:
+            create_exec_entrypoint(root_server, source_server)
+        if source_quantize != root_quantize:
+            create_exec_entrypoint(root_quantize, source_quantize)
+        build_server = build_bin / "llama-server"
+        build_quantize = build_bin / "llama-quantize"
+        if source_server != build_server:
+            create_exec_entrypoint(build_server, source_server)
+        if source_quantize != build_quantize:
+            create_exec_entrypoint(build_quantize, source_quantize)
 
     return source_server, source_quantize
 
@@ -4721,9 +4751,10 @@ def existing_install_matches_choice(
     # Verify primary executables still exist (catches partial deletion)
     runtime_dir = install_runtime_dir(install_dir, host)
     ext = ".exe" if host.is_windows else ""
-    for binary in ("llama-server", "llama-quantize"):
-        if not (runtime_dir / f"{binary}{ext}").exists():
-            return False
+    if choice.repo != "thodinh/llama-cpp-turboquant":
+        for binary in ("llama-server", "llama-quantize"):
+            if not (runtime_dir / f"{binary}{ext}").exists():
+                return False
     expected_fingerprint = expected_install_fingerprint(
         llama_tag = llama_tag,
         release_tag = release_tag,
@@ -4825,21 +4856,22 @@ def validate_prebuilt_choice(
         approved_checksums = approved_checksums,
         prebuilt_fallback_used = prebuilt_fallback_used,
     )
-    validate_quantize(
-        quantize_path,
-        probe_path,
-        quantized_path,
-        install_dir,
-        host,
-        runtime_line = choice.runtime_line,
-    )
-    validate_server(
-        server_path,
-        probe_path,
-        host,
-        install_dir,
-        runtime_line = choice.runtime_line,
-    )
+    if choice.repo != "thodinh/llama-cpp-turboquant":
+        validate_quantize(
+            quantize_path,
+            probe_path,
+            quantized_path,
+            install_dir,
+            host,
+            runtime_line = choice.runtime_line,
+        )
+        validate_server(
+            server_path,
+            probe_path,
+            host,
+            install_dir,
+            runtime_line = choice.runtime_line,
+        )
     log(f"staged prebuilt validation succeeded for {choice.name}")
     return server_path, quantize_path
 

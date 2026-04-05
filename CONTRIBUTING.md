@@ -2,7 +2,7 @@
 
 Thank you for not only using Unsloth but also for being interested in helping out! We value all contributions, whether they come in the form of code, ideas, support for others or just by simply spreading the word of Unsloth! 💕
 
-- **[Support the Community](https://github.com/unslothai/unsloth/issues)**: Answer questions, review pull requests, or assist others in discussions.
+- **[Support the Community](https://github.com/thodinh/unsloth/issues)**: Answer questions, review pull requests, or assist others in discussions.
 - **Fix Bugs**: Identify and resolve issues with the existing codebase.
 - **Submit Ideas**: Request new features or share enhancements you'd like to see.
 - **Develop Features**: Implement new functionality or improve existing tools which can be done via PRs.
@@ -24,6 +24,6 @@ Your support extends beyond code:
 - Share how Unsloth powers your projects.
 - Star our repository to show your appreciation.
 
-Finally, please be mindful of our [Code of Conduct](https://github.com/unslothai/unsloth/blob/main/CODE_OF_CONDUCT.md) to ensure a welcoming and inclusive environment for everyone.
+Finally, please be mindful of our [Code of Conduct](https://github.com/thodinh/unsloth/blob/main/CODE_OF_CONDUCT.md) to ensure a welcoming and inclusive environment for everyone.
 
 Thank you so much for reading and we hope you have lots of fun using Unsloth! 🦥

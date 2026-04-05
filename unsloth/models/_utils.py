@@ -935,7 +935,7 @@ if DEVICE_TYPE == "cuda":
             # Check for CUDA linking errors "undefined symbol: _ZNK3c106SymIntltEl"
             try:
                 try:
-                    # See https://github.com/unslothai/unsloth/issues/1437
+                    # See https://github.com/thodinh/unsloth/issues/1437
                     from flash_attn.flash_attn_interface import flash_attn_gpu
                 except:
                     from flash_attn.flash_attn_interface import flash_attn_cuda
@@ -984,7 +984,7 @@ elif DEVICE_TYPE == "hip":
         # Check for CUDA linking errors "undefined symbol: _ZNK3c106SymIntltEl"
         try:
             try:
-                # See https://github.com/unslothai/unsloth/issues/1437
+                # See https://github.com/thodinh/unsloth/issues/1437
                 from flash_attn.flash_attn_interface import flash_attn_gpu
             except:
                 from flash_attn.flash_attn_interface import flash_attn_cuda
@@ -1062,7 +1062,7 @@ try:
             "\n"
             "%%capture\n"
             "# Installs Unsloth, Xformers (Flash Attention) and all other packages!\n"
-            '!pip install "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"\n'
+            '!pip install "unsloth[colab-new] @ git+https://github.com/thodinh/unsloth.git"\n'
             '!pip install --no-deps "xformers<=0.0.27" trl peft accelerate bitsandbytes\n'
             "\n"
             f"Otherwise in local machines, your xformers version of {xformers_version} is too new.\n"
@@ -1131,7 +1131,7 @@ if False:  # Version(trl_version) >= Version("0.9.0"):
         "\n"
         "%%capture\n"
         "# Installs Unsloth, Xformers (Flash Attention) and all other packages!\n"
-        '!pip install "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"\n'
+        '!pip install "unsloth[colab-new] @ git+https://github.com/thodinh/unsloth.git"\n'
         '!pip install --no-deps "xformers<=0.0.27" trl peft accelerate bitsandbytes\n'
         "\n"
         f"Otherwise in local machines, your TRL version of {trl_version} is too new.\n"
@@ -2909,7 +2909,7 @@ def make_fast_generate_wrapper(original_generate):
 # without a quant_state, producing "Skipping ... no quant_state found" warnings.
 # We patch should_convert_module to expand both the module name and the skip patterns
 # into all equivalent alias forms before delegating to the original matcher.
-# Ref: https://github.com/unslothai/unsloth/issues/4208
+# Ref: https://github.com/thodinh/unsloth/issues/4208
 import transformers.quantizers.quantizers_utils as _quantizers_utils
 
 if (

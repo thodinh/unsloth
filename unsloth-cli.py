@@ -432,7 +432,7 @@ if __name__ == "__main__":
         nargs = "+",
         help = (
             "Quantization method for saving the model. common values ('f16', 'q4_k_m', 'q8_0'), "
-            "Check our wiki for all quantization methods https://github.com/unslothai/unsloth/wiki#saving-to-gguf"
+            "Check our wiki for all quantization methods https://github.com/thodinh/unsloth/wiki#saving-to-gguf"
         ),
     )
 

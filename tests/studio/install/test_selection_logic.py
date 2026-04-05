@@ -121,9 +121,9 @@ def make_artifact(asset_name, **overrides):
 
 def make_release(artifacts, **overrides):
     defaults = dict(
-        repo = "unslothai/llama.cpp",
+        repo = "thodinh/llama-cpp-turboquant",
         release_tag = "v1.0",
-        upstream_tag = "b8508",
+        upstream_tag = "b8665",
         source_repo = None,
         source_repo_url = None,
         source_ref_kind = None,
@@ -142,9 +142,9 @@ def make_release(artifacts, **overrides):
 
 def make_checksums(asset_names):
     return ApprovedReleaseChecksums(
-        repo = "unslothai/llama.cpp",
+        repo = "thodinh/llama-cpp-turboquant",
         release_tag = "v1.0",
-        upstream_tag = "b8508",
+        upstream_tag = "b8665",
         source_repo = None,
         source_repo_url = None,
         source_ref_kind = None,
@@ -156,7 +156,7 @@ def make_checksums(asset_names):
             name: ApprovedArtifactHash(
                 asset_name = name,
                 sha256 = "a" * 64,
-                repo = "unslothai/llama.cpp",
+                repo = "thodinh/llama-cpp-turboquant",
                 kind = "prebuilt",
             )
             for name in asset_names
@@ -168,7 +168,7 @@ def make_checksums_with_source(
     asset_names,
     *,
     release_tag = "v1.0",
-    upstream_tag = "b8508",
+    upstream_tag = "b8665",
     source_repo = None,
     source_repo_url = None,
     source_ref_kind = None,
@@ -181,7 +181,7 @@ def make_checksums_with_source(
             name: ApprovedArtifactHash(
                 asset_name = name,
                 sha256 = "a" * 64,
-                repo = "unslothai/llama.cpp",
+                repo = "thodinh/llama-cpp-turboquant",
                 kind = "prebuilt",
             )
             for name in asset_names
@@ -189,7 +189,7 @@ def make_checksums_with_source(
         source_archive_logical_name(upstream_tag): ApprovedArtifactHash(
             asset_name = source_archive_logical_name(upstream_tag),
             sha256 = "b" * 64,
-            repo = "ggml-org/llama.cpp",
+            repo = "thodinh/llama-cpp-turboquant",
             kind = "upstream-source",
         ),
     }
@@ -206,7 +206,7 @@ def make_checksums_with_source(
             )
         )
     return ApprovedReleaseChecksums(
-        repo = "unslothai/llama.cpp",
+        repo = "thodinh/llama-cpp-turboquant",
         release_tag = release_tag,
         upstream_tag = upstream_tag,
         source_repo = source_repo,
@@ -495,7 +495,7 @@ class TestApplyApprovedHashes:
             source_label = "upstream",
         )
         checksums = ApprovedReleaseChecksums(
-            repo = "unslothai/llama.cpp",
+            repo = "thodinh/llama-cpp-turboquant",
             release_tag = "r1",
             upstream_tag = "b9000",
             artifacts = {
@@ -520,7 +520,7 @@ class TestApplyApprovedHashes:
             source_label = "upstream",
         )
         checksums = ApprovedReleaseChecksums(
-            repo = "unslothai/llama.cpp",
+            repo = "thodinh/llama-cpp-turboquant",
             release_tag = "r1",
             upstream_tag = "b9000",
             artifacts = {
@@ -545,7 +545,7 @@ class TestApplyApprovedHashes:
             source_label = "upstream",
         )
         checksums = ApprovedReleaseChecksums(
-            repo = "unslothai/llama.cpp",
+            repo = "thodinh/llama-cpp-turboquant",
             release_tag = "r1",
             upstream_tag = "b9000",
             artifacts = {
@@ -602,13 +602,13 @@ class TestPublishedReleaseResolution:
             fake_load,
         )
 
-        resolved = resolve_published_release("latest", "unslothai/llama.cpp")
+        resolved = resolve_published_release("latest", "thodinh/llama-cpp-turboquant")
         assert resolved.bundle.release_tag == "v1.0"
         assert resolved.bundle.upstream_tag == "b8999"
         assert resolved.checksums.release_tag == "v1.0"
 
     def test_concrete_tag_matches_manifest_upstream_tag(self, monkeypatch):
-        release = make_release([], release_tag = "release-b8508", upstream_tag = "b8508")
+        release = make_release([], release_tag = "release-b8665", upstream_tag = "b8665")
         monkeypatch.setattr(
             INSTALL_LLAMA_PREBUILT,
             "iter_published_release_bundles",
@@ -620,12 +620,12 @@ class TestPublishedReleaseResolution:
             lambda repo, release_tag: make_checksums_with_source(
                 [],
                 release_tag = release_tag,
-                upstream_tag = "b8508",
+                upstream_tag = "b8665",
             ),
         )
 
         assert (
-            resolve_requested_install_tag("b8508", "", "unslothai/llama.cpp") == "b8508"
+            resolve_requested_install_tag("b8665", "", "thodinh/llama-cpp-turboquant") == "b8665"
         )
 
     def test_concrete_tag_without_matching_release_raises(self, monkeypatch):
@@ -636,8 +636,8 @@ class TestPublishedReleaseResolution:
             lambda repo, published_release_tag = "": iter([release]),
         )
 
-        with pytest.raises(PrebuiltFallback, match = "matched upstream tag b8508"):
-            resolve_requested_install_tag("b8508", "", "unslothai/llama.cpp")
+        with pytest.raises(PrebuiltFallback, match = "matched upstream tag b8665"):
+            resolve_requested_install_tag("b8665", "", "thodinh/llama-cpp-turboquant")
 
     def test_pinned_release_must_match_requested_upstream_tag(self, monkeypatch):
         bundle = make_release(
@@ -658,11 +658,11 @@ class TestPublishedReleaseResolution:
             ),
         )
 
-        with pytest.raises(PrebuiltFallback, match = "but requested b8508"):
+        with pytest.raises(PrebuiltFallback, match = "but requested b8665"):
             resolve_requested_install_tag(
-                "b8508",
+                "b8665",
                 "llama-prebuilt-latest",
-                "unslothai/llama.cpp",
+                "thodinh/llama-cpp-turboquant",
             )
 
     def test_request_matches_requested_source_ref(self, monkeypatch):
@@ -690,7 +690,7 @@ class TestPublishedReleaseResolution:
             ),
         )
 
-        resolved = resolve_published_release("main", "unslothai/llama.cpp")
+        resolved = resolve_published_release("main", "thodinh/llama-cpp-turboquant")
         assert resolved.bundle.release_tag == "release-main"
 
     def test_request_matches_source_commit(self, monkeypatch):
@@ -717,7 +717,7 @@ class TestPublishedReleaseResolution:
             ),
         )
 
-        resolved = resolve_published_release(commit, "unslothai/llama.cpp")
+        resolved = resolve_published_release(commit, "thodinh/llama-cpp-turboquant")
         assert resolved.bundle.release_tag == "release-commit"
 
 
@@ -775,7 +775,7 @@ class TestSourceBuildPlanResolution:
             lambda requested_tag, published_repo, published_release_tag = "": resolved,
         )
 
-        plan = resolve_source_build_plan("main", "unslothai/llama.cpp")
+        plan = resolve_source_build_plan("main", "thodinh/llama-cpp-turboquant")
         assert plan.source_url == "https://github.com/example/custom-llama.cpp"
         assert plan.source_ref_kind == "commit"
         assert plan.source_ref == commit
@@ -811,7 +811,7 @@ class TestSourceBuildPlanResolution:
             lambda requested_tag, published_repo, published_release_tag = "": resolved,
         )
 
-        plan = resolve_source_build_plan("main", "unslothai/llama.cpp")
+        plan = resolve_source_build_plan("main", "thodinh/llama-cpp-turboquant")
         assert plan.source_url == "https://github.com/example/custom-llama.cpp"
         assert plan.source_ref_kind == "branch"
         assert plan.source_ref == "main"
@@ -828,8 +828,8 @@ class TestSourceBuildPlanResolution:
             ).throw(PrebuiltFallback("missing")),
         )
 
-        plan = resolve_source_build_plan("main", "unslothai/llama.cpp")
-        assert plan.source_url == "https://github.com/ggml-org/llama.cpp"
+        plan = resolve_source_build_plan("main", "thodinh/llama-cpp-turboquant")
+        assert plan.source_url == "https://github.com/thodinh/llama-cpp-turboquant"
         assert plan.source_ref_kind == "branch"
         assert plan.source_ref == "main"
 
@@ -844,7 +844,7 @@ class TestParseApprovedReleaseChecksums:
                     "schema_version": 1,
                     "component": "other",
                     "release_tag": "r1",
-                    "upstream_tag": "b8508",
+                    "upstream_tag": "b8665",
                     "artifacts": {},
                 },
             )
@@ -858,7 +858,7 @@ class TestParseApprovedReleaseChecksums:
                     "schema_version": 1,
                     "component": "llama.cpp",
                     "release_tag": "r2",
-                    "upstream_tag": "b8508",
+                    "upstream_tag": "b8665",
                     "artifacts": {},
                 },
             )
@@ -872,7 +872,7 @@ class TestParseApprovedReleaseChecksums:
                     "schema_version": 1,
                     "component": "llama.cpp",
                     "release_tag": "r1",
-                    "upstream_tag": "b8508",
+                    "upstream_tag": "b8665",
                     "artifacts": {
                         "asset.tar.gz": {
                             "sha256": "bad-digest",
@@ -890,7 +890,7 @@ class TestParseApprovedReleaseChecksums:
                     "schema_version": 2,
                     "component": "llama.cpp",
                     "release_tag": "r1",
-                    "upstream_tag": "b8508",
+                    "upstream_tag": "b8665",
                     "artifacts": {},
                 },
             )
@@ -898,15 +898,15 @@ class TestParseApprovedReleaseChecksums:
 
 class TestValidatedChecksumsForBundle:
     def test_rejects_manifest_checksum_mismatch(self, monkeypatch):
-        bundle = make_release([], release_tag = "r1", upstream_tag = "b8508")
+        bundle = make_release([], release_tag = "r1", upstream_tag = "b8665")
         bundle.manifest_sha256 = "a" * 64
         checksums = make_checksums_with_source(
-            [], release_tag = "r1", upstream_tag = "b8508"
+            [], release_tag = "r1", upstream_tag = "b8665"
         )
         checksums.artifacts[bundle.manifest_asset_name] = ApprovedArtifactHash(
             asset_name = bundle.manifest_asset_name,
             sha256 = "b" * 64,
-            repo = "unslothai/llama.cpp",
+            repo = "thodinh/llama-cpp-turboquant",
             kind = "published-manifest",
         )
         monkeypatch.setattr(
@@ -916,7 +916,7 @@ class TestValidatedChecksumsForBundle:
         )
 
         with pytest.raises(PrebuiltFallback, match = "manifest checksum"):
-            validated_checksums_for_bundle("unslothai/llama.cpp", bundle)
+            validated_checksums_for_bundle("thodinh/llama-cpp-turboquant", bundle)
 
 
 # ===========================================================================
@@ -1248,7 +1248,7 @@ class TestResolveInstallAttempts:
         requested_tag, resolved_tag, attempts, approved = resolve_install_attempts(
             "latest",
             host,
-            "unslothai/llama.cpp",
+            "thodinh/llama-cpp-turboquant",
             "",
         )
 
@@ -1310,7 +1310,7 @@ class TestResolveInstallAttempts:
         requested_tag, resolved_tag, attempts, approved = resolve_install_attempts(
             "latest",
             host,
-            "unslothai/llama.cpp",
+            "thodinh/llama-cpp-turboquant",
             "",
         )
 
@@ -1358,7 +1358,7 @@ class TestResolveInstallAttempts:
         _requested_tag, resolved_tag, attempts, _approved = resolve_install_attempts(
             "latest",
             host,
-            "unslothai/llama.cpp",
+            "thodinh/llama-cpp-turboquant",
             "",
         )
 
@@ -1395,7 +1395,7 @@ class TestResolveInstallAttempts:
         with pytest.raises(
             PrebuiltFallback, match = "no compatible published Linux CUDA bundle"
         ):
-            resolve_install_attempts("latest", host, "unslothai/llama.cpp", "")
+            resolve_install_attempts("latest", host, "thodinh/llama-cpp-turboquant", "")
 
     def test_windows_cpu_prefers_published_asset(self, monkeypatch):
         host = make_host(
@@ -1452,7 +1452,7 @@ class TestResolveInstallAttempts:
         _requested_tag, resolved_tag, attempts, _approved = resolve_install_attempts(
             "latest",
             host,
-            "unslothai/llama.cpp",
+            "thodinh/llama-cpp-turboquant",
             "",
         )
 
@@ -1517,7 +1517,7 @@ class TestResolveInstallAttempts:
         _requested_tag, resolved_tag, attempts, _approved = resolve_install_attempts(
             "latest",
             host,
-            "unslothai/llama.cpp",
+            "thodinh/llama-cpp-turboquant",
             "",
         )
 
@@ -1584,7 +1584,7 @@ class TestResolveInstallAttempts:
             resolve_install_attempts(
                 "latest",
                 host,
-                "unslothai/llama.cpp",
+                "thodinh/llama-cpp-turboquant",
                 "",
             )
 
@@ -1643,7 +1643,7 @@ class TestResolveInstallReleasePlans:
         requested_tag, plans = resolve_install_release_plans(
             "latest",
             host,
-            "unslothai/llama.cpp",
+            "thodinh/llama-cpp-turboquant",
             "",
             max_release_fallbacks = 2,
         )
@@ -1701,7 +1701,7 @@ class TestResolveInstallReleasePlans:
         _requested_tag, plans = resolve_install_release_plans(
             "latest",
             host,
-            "unslothai/llama.cpp",
+            "thodinh/llama-cpp-turboquant",
             "",
             max_release_fallbacks = 2,
         )
@@ -1740,7 +1740,7 @@ class TestResolveInstallReleasePlans:
 
 
 class TestWindowsCudaAttempts:
-    TAG = "b8508"
+    TAG = "b8665"
 
     def _upstream(self, *runtime_versions, current_names: bool = False):
         assets = {}
@@ -1829,7 +1829,7 @@ class TestWindowsCudaAttempts:
 
 
 class TestResolveUpstreamAssetChoice:
-    TAG = "b8508"
+    TAG = "b8665"
 
     def _mock_github_assets(self, monkeypatch, assets):
         monkeypatch.setattr(

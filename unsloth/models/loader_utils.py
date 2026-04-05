@@ -178,7 +178,7 @@ def _get_new_mapper():
     try:
         import requests
 
-        new_mapper = "https://raw.githubusercontent.com/unslothai/unsloth/main/unsloth/models/mapper.py"
+        new_mapper = "https://raw.githubusercontent.com/thodinh/unsloth/main/unsloth/models/mapper.py"
         with requests.get(new_mapper, timeout = 3) as new_mapper:
             new_mapper = new_mapper.text
         new_mapper = new_mapper[new_mapper.find("__INT_TO_FLOAT_MAPPER") :]
@@ -264,8 +264,8 @@ def get_model_name(
             raise NotImplementedError(
                 f"Unsloth: {model_name} is not supported in your current Unsloth version! Please update Unsloth via:\n\n"
                 "pip uninstall unsloth unsloth_zoo -y\n"
-                'pip install --upgrade --no-cache-dir "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"\n'
-                'pip install --upgrade --no-cache-dir "git+https://github.com/unslothai/unsloth-zoo.git"\n'
+                'pip install --upgrade --no-cache-dir "unsloth[colab-new] @ git+https://github.com/thodinh/unsloth.git"\n'
+                'pip install --upgrade --no-cache-dir "git+https://github.com/thodinh/unsloth-zoo.git"\n'
             )
 
     if new_model_name is None:

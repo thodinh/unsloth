@@ -463,7 +463,7 @@ tags:
 
 # {model_name} - GGUF
 
-This sentence-transformers model was finetuned and converted to GGUF format using [Unsloth](https://github.com/unslothai/unsloth).
+This sentence-transformers model was finetuned and converted to GGUF format using [Unsloth](https://github.com/thodinh/unsloth).
 
 ## Available Model files:
 """
@@ -481,8 +481,8 @@ This sentence-transformers model was finetuned and converted to GGUF format usin
             )
 
         readme_content += (
-            "\nThis was trained 2x faster with [Unsloth](https://github.com/unslothai/unsloth)\n"
-            '[<img src="https://raw.githubusercontent.com/unslothai/unsloth/main/images/unsloth%20made%20with%20love.png" width="200"/>](https://github.com/unslothai/unsloth)\n'
+            "\nThis was trained 2x faster with [Unsloth](https://github.com/thodinh/unsloth)\n"
+            '[<img src="https://raw.githubusercontent.com/thodinh/unsloth/main/images/unsloth%20made%20with%20love.png" width="200"/>](https://github.com/thodinh/unsloth)\n'
         )
 
         readme_path = os.path.join(temp_dir, "README.md")
@@ -966,8 +966,8 @@ class FastSentenceTransformer(FastModel):
 
         # add branding badge and text
         branding = (
-            "\n\nThis model was finetuned with [Unsloth](https://github.com/unslothai/unsloth).\n\n"
-            '[<img src="https://raw.githubusercontent.com/unslothai/unsloth/main/images/unsloth%20made%20with%20love.png" width="200"/>](https://github.com/unslothai/unsloth)\n'
+            "\n\nThis model was finetuned with [Unsloth](https://github.com/thodinh/unsloth).\n\n"
+            '[<img src="https://raw.githubusercontent.com/thodinh/unsloth/main/images/unsloth%20made%20with%20love.png" width="200"/>](https://github.com/thodinh/unsloth)\n'
         )
 
         # add to description

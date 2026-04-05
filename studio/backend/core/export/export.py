@@ -86,9 +86,9 @@ language:
 - **License:** apache-2.0
 - **Finetuned from model :** {base_model}
 
-This {model_type} model was trained 2x faster with [Unsloth](https://github.com/unslothai/unsloth) and Huggingface's TRL library.
+This {model_type} model was trained 2x faster with [Unsloth](https://github.com/thodinh/unsloth) and Huggingface's TRL library.
 
-[<img src="https://raw.githubusercontent.com/unslothai/unsloth/main/images/unsloth%20made%20with%20love.png" width="200"/>](https://github.com/unslothai/unsloth)
+[<img src="https://raw.githubusercontent.com/thodinh/unsloth/main/images/unsloth%20made%20with%20love.png" width="200"/>](https://github.com/thodinh/unsloth)
 """
 
 

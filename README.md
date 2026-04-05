@@ -1,8 +1,8 @@
 <h1 align="center" style="margin:0;">
   <a href="https://unsloth.ai/docs"><picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/unslothai/unsloth/main/images/STUDIO%20WHITE%20LOGO.png">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/unslothai/unsloth/main/images/STUDIO%20BLACK%20LOGO.png">
-    <img alt="Unsloth logo" src="https://raw.githubusercontent.com/unslothai/unsloth/main/images/STUDIO%20BLACK%20LOGO.png" height="60" style="max-width:100%;">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/thodinh/unsloth/main/images/STUDIO%20WHITE%20LOGO.png">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/thodinh/unsloth/main/images/STUDIO%20BLACK%20LOGO.png">
+    <img alt="Unsloth logo" src="https://raw.githubusercontent.com/thodinh/unsloth/main/images/STUDIO%20BLACK%20LOGO.png" height="60" style="max-width:100%;">
   </picture></a>
 </h1>
 <h3 align="center" style="margin: 0; margin-top: 0;">
@@ -17,7 +17,7 @@ Run and train AI models with a unified local interface.
   <a href="https://www.reddit.com/r/unsloth/">Reddit</a>
 </p>
  <a href="https://unsloth.ai/docs/new/studio">
-<img alt="unsloth studio ui homepage" src="https://raw.githubusercontent.com/unslothai/unsloth/main/studio/frontend/public/studio%20github%20landscape%20colab%20display.png" style="max-width: 100%; margin-bottom: 0;"></a>
+<img alt="unsloth studio ui homepage" src="https://raw.githubusercontent.com/thodinh/unsloth/main/studio/frontend/public/studio%20github%20landscape%20colab%20display.png" style="max-width: 100%; margin-bottom: 0;"></a>
 
 Unsloth Studio (Beta) lets you run and train text, [audio](https://unsloth.ai/docs/basics/text-to-speech-tts-fine-tuning), [embedding](https://unsloth.ai/docs/new/embedding-finetuning), [vision](https://unsloth.ai/docs/basics/vision-fine-tuning) models on Windows, Linux and macOS.
 
@@ -111,7 +111,7 @@ To install Unsloth on **AMD** and **Intel** GPUs, follow our [AMD Guide](https:/
 
 ## 📒 Free Notebooks
 
-Train for free with our notebooks. You can use our new [free Unsloth Studio notebook](https://colab.research.google.com/github/unslothai/unsloth/blob/main/studio/Unsloth_Studio_Colab.ipynb) to run and train models for free in a web UI.
+Train for free with our notebooks. You can use our new [free Unsloth Studio notebook](https://colab.research.google.com/github/thodinh/unsloth/blob/main/studio/Unsloth_Studio_Colab.ipynb) to run and train models for free in a web UI.
 Read our [guide](https://unsloth.ai/docs/get-started/fine-tuning-llms-guide). Add dataset, run, then deploy your trained model.
 
 | Model | Free Notebooks | Performance | Memory use |
@@ -148,7 +148,7 @@ Read our [guide](https://unsloth.ai/docs/get-started/fine-tuning-llms-guide). Ad
 The below advanced instructions are for Unsloth Studio. For Unsloth Core advanced installation, [view our docs](https://unsloth.ai/docs/get-started/install/pip-install#advanced-pip-installation).
 #### Developer installs: macOS, Linux, WSL:
 ```bash
-git clone https://github.com/unslothai/unsloth
+git clone https://github.com/thodinh/unsloth
 cd unsloth
 ./install.sh --local
 unsloth studio -H 0.0.0.0 -p 8888
@@ -160,7 +160,7 @@ unsloth studio update
 
 #### Developer installs: Windows PowerShell:
 ```powershell
-git clone https://github.com/unslothai/unsloth.git
+git clone https://github.com/thodinh/unsloth.git
 cd unsloth
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\install.ps1 --local
@@ -173,7 +173,7 @@ unsloth studio update
 
 #### Nightly: MacOS, Linux, WSL:
 ```bash
-git clone https://github.com/unslothai/unsloth
+git clone https://github.com/thodinh/unsloth
 cd unsloth
 git checkout nightly
 ./install.sh --local
@@ -187,7 +187,7 @@ unsloth studio -H 0.0.0.0 -p 8888
 #### Nightly: Windows:
 Run in Windows Powershell:
 ```bash
-git clone https://github.com/unslothai/unsloth.git
+git clone https://github.com/thodinh/unsloth.git
 cd unsloth
 git checkout nightly
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
@@ -231,20 +231,20 @@ You can cite the Unsloth repo as follows:
 @software{unsloth,
   author = {Daniel Han, Michael Han and Unsloth team},
   title = {Unsloth},
-  url = {https://github.com/unslothai/unsloth},
+  url = {https://github.com/thodinh/unsloth},
   year = {2023}
 }
 ```
-If you trained a model with 🦥Unsloth, you can use this cool sticker!   <img src="https://raw.githubusercontent.com/unslothai/unsloth/main/images/made with unsloth.png" width="200" align="center" />
+If you trained a model with 🦥Unsloth, you can use this cool sticker!   <img src="https://raw.githubusercontent.com/thodinh/unsloth/main/images/made with unsloth.png" width="200" align="center" />
 
 ### License
-Unsloth uses a dual-licensing model of Apache 2.0 and AGPL-3.0. The core Unsloth package remains licensed under **[Apache 2.0](https://github.com/unslothai/unsloth?tab=Apache-2.0-1-ov-file)**, while certain optional components, such as the Unsloth Studio UI are licensed under the open-source license **[AGPL-3.0](https://github.com/unslothai/unsloth?tab=AGPL-3.0-2-ov-file)**.
+Unsloth uses a dual-licensing model of Apache 2.0 and AGPL-3.0. The core Unsloth package remains licensed under **[Apache 2.0](https://github.com/thodinh/unsloth?tab=Apache-2.0-1-ov-file)**, while certain optional components, such as the Unsloth Studio UI are licensed under the open-source license **[AGPL-3.0](https://github.com/thodinh/unsloth?tab=AGPL-3.0-2-ov-file)**.
 
 This structure helps support ongoing Unsloth development while keeping the project open source and enabling the broader ecosystem to continue growing.
 
 ### Thank You to
 - The [llama.cpp library](https://github.com/ggml-org/llama.cpp) that lets users run and save models with Unsloth
 - The Hugging Face team and their libraries: [transformers](https://github.com/huggingface/transformers) and [TRL](https://github.com/huggingface/trl)
-- The Pytorch and [Torch AO](https://github.com/unslothai/unsloth/pull/3391) team for their contributions
+- The Pytorch and [Torch AO](https://github.com/thodinh/unsloth/pull/3391) team for their contributions
 - NVIDIA for their [NeMo DataDesigner](https://github.com/NVIDIA-NeMo/DataDesigner) library and their contributions
 - And of course for every single person who has contributed or has used Unsloth!

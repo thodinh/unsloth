@@ -183,7 +183,7 @@ def _offload_frozen_module_for_training(
         - Future versions will support disk-based offloading for even larger models
 
     See Also:
-        - https://github.com/unslothai/unsloth/pull/1200 (Tesla T4 float32 requirement)
+        - https://github.com/thodinh/unsloth/pull/1200 (Tesla T4 float32 requirement)
     """
     # Early return with explicit None if module doesn't support mixed precision training
     if not hasattr(module, "modules_to_save"):
@@ -191,7 +191,7 @@ def _offload_frozen_module_for_training(
 
     new_dtype = module.modules_to_save.default.weight.dtype
     if new_dtype == torch.float16:
-        # See https://github.com/unslothai/unsloth/pull/1200
+        # See https://github.com/thodinh/unsloth/pull/1200
         # Tesla T4 must use float32 and not float16
         new_dtype = torch.float32
 
@@ -881,7 +881,7 @@ def LlamaDecoderLayer_fast_forward(
     return outputs
 
 
-# https://github.com/unslothai/unsloth/issues/404#issuecomment-2323473452
+# https://github.com/thodinh/unsloth/issues/404#issuecomment-2323473452
 __DTYPE_MAP = {
     "float32": torch.float32,
     torch.float32: torch.float32,
@@ -1108,7 +1108,7 @@ def LlamaModel_fast_forward(
             self.SWA_mask = True
             self.GA_mask = False
         elif attention_mask is not None:
-            # Fixes https://github.com/unslothai/unsloth/issues/853
+            # Fixes https://github.com/thodinh/unsloth/issues/853
             # Unsloth needs a 2D mask, not a [2, 1, n, n] mask!
 
             # https://github.com/pytorch/pytorch/issues/103749
@@ -1589,7 +1589,7 @@ def CausalLM_fast_forward(fast_forward_inference):
         if labels is not None:
             shift_logits = logits
             # if not hasattr(self, "extra_ignored_labels"):
-            #     # Fixes https://github.com/unslothai/unsloth/issues/10
+            #     # Fixes https://github.com/thodinh/unsloth/issues/10
             #     self.extra_ignored_labels = torch.full((self.max_seq_length, 1), -100, device = "cuda:0")
             # pass
             shift_labels = torch.empty_like(labels)
@@ -1696,7 +1696,7 @@ def _get_rope_theta(config, default = 10000.0):
     return default
 
 
-# Solves https://github.com/unslothai/unsloth/issues/168
+# Solves https://github.com/thodinh/unsloth/issues/168
 # Static KV Cache was introduced in 4.38.0, causing training to be much slower.
 # Inference can now be CUDAGraphed, but we shall retain the old rotary embeddings.
 # https://github.com/huggingface/transformers/pull/27931
@@ -2172,7 +2172,7 @@ class FastLlamaModel:
         PeftModelForCausalLM.forward = PeftModel_fast_forward
         fix_prepare_inputs_for_generation(LlamaForCausalLM)
 
-        # Solves https://github.com/unslothai/unsloth/issues/168
+        # Solves https://github.com/thodinh/unsloth/issues/168
         # Static KV Cache was introduced in 4.38.0, causing training to be much slower.
         # Inference can now be CUDAGraphed, but we shall retain the old rotary embeddings.
         # https://github.com/huggingface/transformers/pull/27931
@@ -2290,7 +2290,7 @@ class FastLlamaModel:
             f"   {chr(92)}{chr(92)}   /|    {gpu_stats_name}Num GPUs = {DEVICE_COUNT}. Max memory: {max_memory} GB. Platform: {platform_system}.\n"
             f"O^O/ {chr(92)}_/ {chr(92)}    Torch: {torch.__version__}. {gpu_stats_snippet} Triton: {triton_version}\n"
             f"{chr(92)}        /    Bfloat16 = {str(SUPPORTS_BFLOAT16).upper()}. FA [Xformers = {xformers_version}. FA2 = {HAS_FLASH_ATTENTION}]\n"
-            f' "-____-"     Free license: http://github.com/unslothai/unsloth'
+            f' "-____-"     Free license: http://github.com/thodinh/unsloth'
         )
 
         print(statistics)
@@ -2380,7 +2380,7 @@ class FastLlamaModel:
             if not has_rope_scaling:
                 raise RuntimeError(
                     f"However, {model_name} doesn't support RoPE Scaling!\n"
-                    "Please file a feature request at https://github.com/unslothai/unsloth."
+                    "Please file a feature request at https://github.com/thodinh/unsloth."
                 )
 
             rope_scaling = {
@@ -3300,7 +3300,7 @@ class FastLlamaModel:
                     model.peft_config[active_adapter].base_model_name_or_path = name
                 pass
             # Add revision to enable future fast inference paths
-            # [TODO] Bugs out!see https://github.com/unslothai/unsloth/issues/492
+            # [TODO] Bugs out!see https://github.com/thodinh/unsloth/issues/492
             # model.peft_config[active_adapter].revision = f"unsloth"
 
         from transformers.trainer import Trainer
@@ -3442,7 +3442,7 @@ class FastLlamaModel:
         patch_saving_functions(model)
 
         # Patch cross entropy loss labels
-        # Fixes https://github.com/unslothai/unsloth/issues/10
+        # Fixes https://github.com/thodinh/unsloth/issues/10
         max_seq_length = model.max_seq_length
         # extra_ignored_labels = torch.full((max_seq_length, 1), -100, device = "cuda:0")
         # model.model.extra_ignored_labels = extra_ignored_labels

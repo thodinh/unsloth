@@ -55,7 +55,7 @@ def show_link(port: int = 8888):
                 border-radius: 12px; margin: 10px 0; font-family: system-ui, -apple-system, sans-serif;">
         <h2 style="color: #000000; margin: 0 0 12px 0; font-size: 26px; font-weight: 800;
                    display: flex; align-items: center; gap: 12px;">
-            <img src="https://github.com/unslothai/unsloth/raw/main/studio/frontend/public/unsloth-gem.png"
+            <img src="https://github.com/thodinh/unsloth/raw/main/studio/frontend/public/unsloth-gem.png"
                  height="48" style="display:block;">
             Unsloth Studio is Ready!
         </h2>
