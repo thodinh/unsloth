@@ -67,7 +67,7 @@ def env_int(name: str, default: int, *, minimum: int | None = None) -> int:
 DEFAULT_LLAMA_TAG = os.environ.get("UNSLOTH_LLAMA_TAG", "latest")
 # Default published repo for prebuilt release resolution. Linux uses
 # Unsloth prebuilts; setup.sh/setup.ps1 pass --published-repo explicitly
-# for macOS/Windows to override with ggml-org/llama.cpp when needed.
+# for macOS/Windows to override with thodinh/llama-cpp-turboquant when needed.
 DEFAULT_PUBLISHED_REPO = "unslothai/llama.cpp"
 DEFAULT_PUBLISHED_TAG = os.environ.get("UNSLOTH_LLAMA_RELEASE_TAG")
 DEFAULT_PUBLISHED_MANIFEST_ASSET = os.environ.get(
@@ -76,7 +76,7 @@ DEFAULT_PUBLISHED_MANIFEST_ASSET = os.environ.get(
 DEFAULT_PUBLISHED_SHA256_ASSET = os.environ.get(
     "UNSLOTH_LLAMA_RELEASE_SHA256_ASSET", "llama-prebuilt-sha256.json"
 )
-UPSTREAM_REPO = "ggml-org/llama.cpp"
+UPSTREAM_REPO = "thodinh/llama-cpp-turboquant"
 UPSTREAM_RELEASES_API = f"https://api.github.com/repos/{UPSTREAM_REPO}/releases/latest"
 TEST_MODEL_URL = (
     "https://huggingface.co/ggml-org/models/resolve/main/tinyllamas/stories260K.gguf"
@@ -2317,7 +2317,7 @@ def resolve_requested_llama_tag(
          published release bundle and return its upstream_tag. This is the
          preferred version that matches the published prebuilt metadata.
       3. "latest" without published_repo or if (2) fails -- query the upstream
-         ggml-org/llama.cpp repo. This may return a newer, untested tag.
+         thodinh/llama-cpp-turboquant repo. This may return a newer, untested tag.
 
     The Unsloth repo is preferred because its releases are pinned to specific
     upstream tags that have been validated with Unsloth Studio. Using the
@@ -2328,7 +2328,7 @@ def resolve_requested_llama_tag(
         return normalized_requested
     # Prefer the Unsloth release repo tag (tested/approved) over bleeding-edge
     # upstream. For example, unslothai/llama.cpp may publish b8508 while
-    # ggml-org/llama.cpp latest is b8514. The source-build fallback should
+    # thodinh/llama-cpp-turboquant latest is b8514. The source-build fallback should
     # compile the same version the prebuilt path would have installed.
     if published_repo:
         try:
@@ -2418,7 +2418,7 @@ def source_build_plan_for_release(
         )
     return SourceBuildPlan(
         source_url = source_url_from_repo_slug(UPSTREAM_REPO)
-        or "https://github.com/ggml-org/llama.cpp",
+        or "https://github.com/thodinh/llama-cpp-turboquant",
         source_ref = release.bundle.upstream_tag,
         source_ref_kind = "tag",
         compatibility_upstream_tag = release.bundle.upstream_tag,
@@ -2448,7 +2448,7 @@ def resolve_source_build_plan(
             pass
         inferred_kind = infer_source_ref_kind(normalized_requested)
         return SourceBuildPlan(
-            source_url = "https://github.com/ggml-org/llama.cpp",
+            source_url = "https://github.com/thodinh/llama-cpp-turboquant",
             source_ref = checkout_friendly_ref(inferred_kind, normalized_requested)
             or normalized_requested,
             source_ref_kind = inferred_kind,
@@ -2467,7 +2467,7 @@ def resolve_source_build_plan(
             pass
     latest_tag = latest_upstream_release_tag()
     return SourceBuildPlan(
-        source_url = "https://github.com/ggml-org/llama.cpp",
+        source_url = "https://github.com/thodinh/llama-cpp-turboquant",
         source_ref = latest_tag,
         source_ref_kind = "tag",
         compatibility_upstream_tag = latest_tag,
@@ -3227,7 +3227,7 @@ def ensure_converter_scripts(install_dir: Path, llama_tag: str) -> None:
     if not canonical.exists():
         # Hydrated source tree should have placed this file already.
         # Fall back to a network fetch so the install is not blocked.
-        raw_base = f"https://raw.githubusercontent.com/ggml-org/llama.cpp/{llama_tag}"
+        raw_base = f"https://raw.githubusercontent.com/thodinh/llama-cpp-turboquant/{llama_tag}"
         source_url = f"{raw_base}/convert_hf_to_gguf.py"
         data = download_bytes(
             source_url,
@@ -5235,7 +5235,7 @@ if __name__ == "__main__":
         )
         raise SystemExit(EXIT_BUSY)
     except PrebuiltFallback as exc:
-        # Expected when the published repo (e.g. ggml-org/llama.cpp) has no
+        # Expected when the published repo (e.g. thodinh/llama-cpp-turboquant) has no
         # prebuilt manifest.  Exit quietly with EXIT_FALLBACK so the caller
         # falls back to source build without a noisy "fatal helper error".
         log(textwrap.shorten(str(exc), width = 400, placeholder = "..."))
