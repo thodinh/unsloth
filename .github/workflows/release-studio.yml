@@ -55,5 +55,19 @@ jobs:
         with:
           tag_name: ${{ steps.prep.outputs.tag_name }}
           name: Unsloth Release ${{ steps.prep.outputs.tag_name }}
+          body: |
+            ### 🚀 One-Click Installation
+            For Linux / WSL / macOS:
+            ```bash
+            curl -fsSL https://raw.githubusercontent.com/thodinh/unsloth/main/install.sh | bash
+            ```
+            
+            For Windows PowerShell:
+            ```powershell
+            irm https://raw.githubusercontent.com/thodinh/unsloth/main/install.ps1 | iex
+            ```
+            
+            > **Note:** This bundle includes the pre-compiled Unsloth Studio React frontend. Setup is completely automated.
           files: dist/*.whl
           generate_release_notes: true
+          append_body: true

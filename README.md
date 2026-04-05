@@ -9,6 +9,12 @@
 Run and train AI models with a unified local interface.
 </h3>
 
+## 🐰 Custom Fork (Thỏ Đình)
+This repository is a customized fork optimized for seamless local deployments without requiring frontend compilation:
+* **Pre-compiled Distribution**: The Unsloth Studio React UI is securely pre-built and bundled directly into the Python wheel via GitHub CI/CD. No `Node.js` or `bun` dependencies are required for the end-user.
+* **`llama-cpp-turboquant` Integration**: Leverages an optimized custom branch of `llama.cpp` to boost GGUF performance.
+* **One-Line Installation**: Install instantly via `curl | bash` pulling pre-built `.whl` files from GitHub Releases.
+
 <p align="center">
   <a href="#-features">Features</a> •
   <a href="#-quickstart">Quickstart</a> •
